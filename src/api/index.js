@@ -92,7 +92,7 @@ async function getMyCollects(pageCount) {
  * @returns {Promise<*>}
  */
 async function search(keyWord, pageCount = 0) {
-  return await post(`lg/collect/list/${pageCount}/json`, { "k": keyWord }, true);
+  return await post(`article/query/${pageCount}/json`, { "k": keyWord }, true);
 }
 
 /**
@@ -103,8 +103,22 @@ async function projectType() {
   return await get("project/tree/json");
 }
 
-async function projectType(pageCount = 1, cid) {
+/**
+ * 项目列表
+ * @param pageCount
+ * @param cid
+ * @returns {Promise<*>}
+ */
+async function projectList(pageCount = 1, cid) {
   return await get(`project/list/${pageCount}/json?cid=${cid}`);
+}
+
+/**
+ * 鸿蒙开发相关数据
+ * @returns {Promise<*>}
+ */
+async function harmonyList() {
+  return await get(`harmony/index/json`);
 }
 
 /**
@@ -157,6 +171,9 @@ export default {
   cancelCollect,
   getMyCollects,
   search,
+  projectType,
+  projectList,
+  harmonyList,
   login,
   logout,
   register

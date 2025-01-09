@@ -1,11 +1,13 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/harmony/main",
     "pages/search/main",
     "pages/project/main",
     "pages/mine/main",
     "pages/auth/login/main",
-    "pages/auth/register/main"
+    "pages/auth/register/main",
+    "pages/webview/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -24,6 +26,12 @@
         "pagePath": "pages/index/main",
         "iconPath": "static/tabs/home-normal.png",
         "selectedIconPath": "static/tabs/home-active.png"
+      },
+      {
+        "text": "Harmony",
+        "pagePath": "pages/harmony/main",
+        "iconPath": "static/tabs/harmony-normal.png",
+        "selectedIconPath": "static/tabs/harmony-active.png"
       },
       {
         "text": "搜索",

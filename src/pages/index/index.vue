@@ -12,7 +12,7 @@
         @change="onSwiperChange"
       >
         <swiper-item v-for="(item, index) in bannerList" :key="index" class="swiper-item">
-          <img class="banner-image" :src="item.imagePath" alt="banner" />
+          <img class="banner-image" @click="bannerItemClick(item)" :src="item.imagePath" alt="banner" />
         </swiper-item>
       </swiper>
 
@@ -21,9 +21,20 @@
     <div class="scrollable-list">
       <ul>
         <li v-for="(item, index) in homeListData" :key="index">
-          <div class="item">
-            <p>{{ item.title }}</p>
+          <div class="list-item" @click="itemClick(item)">
+            <div class="item-child">
+              <p class="item-title" :style="{color:item.type===1?topColor:normalColor}">{{ item.title }}</p>
+            </div>
+            <div class="item-child">
+              <p style="margin-right: 10px">作者:{{ item.author || item.shareUser }}
+              <p>分类:{{ item.superChapterName }}/{{ item.chapterName }}</p>
+            </div>
+            <div class="item-child">
+              <p>时间：{{ item.niceDate }}</p>
+            </div>
+
           </div>
+
         </li>
       </ul>
     </div>
@@ -34,6 +45,7 @@
 <script>
 import toast from "../../utils/toast";
 import api from "@/api/index";
+import launch from "../../utils/launch";
 
 export default {
   data() {
@@ -42,7 +54,9 @@ export default {
       loading: false,   // 是否正在加载
       hasMore: true,    // 是否还有更多数据
       bannerList: [],
-      homeListData: []
+      homeListData: [],
+      topColor: "#de1919",
+      normalColor: "#000"
     };
   },
 
@@ -88,6 +102,15 @@ export default {
     },
     //banner轮播事件
     onSwiperChange(event) {
+    },
+    bannerItemClick(item) {
+      //跳转到webview
+      launch.navigateTo("/pages/webview/main", { url: item.url });
+    },
+    //列表点击事件
+    itemClick(item) {
+      //跳转到webview
+      launch.navigateTo("/pages/webview/main", { url: item.link });
     }
   },
   //处理下拉刷新
@@ -101,7 +124,7 @@ export default {
   },
   created() {
     this.getBanner();
-    this.fetchHomeList();
+    this.fetchHomeList(true);
   }
 };
 </script>
@@ -112,10 +135,12 @@ export default {
   flex-direction: column;
   height: 100%;
 }
-
+.swiper{
+  height: 200px;
+}
 .banner-image {
   width: 100%;
-  height: 120px;
+  height: 200px;
 }
 
 .scrollable-list {
@@ -129,11 +154,22 @@ export default {
   margin: 0;
 }
 
-.item {
+.list-item {
+  border: 1px solid #000; /* 圆圈边框 */
+  margin: 10px;
+  padding-bottom: 10px;
+}
+
+.item-child {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-left: 20px;
   margin-top: 18px;
+  margin-right: 15px;
+}
+
+.item-title {
+  font-size: 18px;
 }
 </style>
