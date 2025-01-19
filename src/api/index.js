@@ -109,7 +109,7 @@ async function projectType() {
  * @param cid
  * @returns {Promise<*>}
  */
-async function projectList(pageCount = 1, cid) {
+async function projectList(cid, pageCount = 1) {
   return await get(`project/list/${pageCount}/json?cid=${cid}`);
 }
 

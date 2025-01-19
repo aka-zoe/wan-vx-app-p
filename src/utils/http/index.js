@@ -23,14 +23,16 @@ fly.interceptors.request.use((request) => {
     // request.headers['Cookie'] = cookie;  // 使用对象形式设置请求头
     request.headers["Cookie"] = cookie[0];  // 使用对象形式设置请求头
   }
-  console.log("请求拦截器:", request);
+  console.log("请求拦截器:", request.url);
+  console.log("          ", request);
   return request;
 });
 
 // 添加响应拦截器，处理响应数据
 fly.interceptors.response.use(
   (response) => {
-    console.log("响应拦截器:", response);
+    console.log("响应拦截器:", response.request.url);
+    console.log("         ", response);
     // 这里可以根据需要处理响应数据
     if (response.status !== 200) {
       return Promise.reject(new Error(`请求失败: ${response.status}`));
