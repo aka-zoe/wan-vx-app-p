@@ -1,6 +1,7 @@
 import Fly from "flyio/dist/npm/wx";
 import store from "../storage/index";
 import toast from "../toast";
+import launch from "../launch";
 // 创建 Fly 实例
 const fly = new Fly();
 
@@ -53,9 +54,8 @@ fly.interceptors.response.use(
     if (response.data.errorCode === 0) {
       //response.data.data才是实际业务中需要的数据
       return response.data.data;
-    }else{
-      return null;
     }
+    return null;
   },
   (err) => {
     console.error("响应错误拦截器:", err);

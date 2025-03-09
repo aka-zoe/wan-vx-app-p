@@ -68,15 +68,6 @@ function collect(id) {
 }
 
 /**
- * 取消收藏
- * @param id
- * @returns {Promise<*>}
- */
-function cancelCollect(id) {
-  return get(`lg/uncollect_originId/${id}/json`);
-}
-
-/**
  * 获取我的收藏
  * @param pageCount
  * @returns {Promise<*>}
@@ -159,6 +150,33 @@ function register(username, password, repassword) {
   return post("user/register", params, true);
 }
 
+/**
+ * 获取我的收藏列表
+ * @param pageCount
+ * @returns {*}
+ */
+function collectList(pageCount = 0) {
+  return get(`lg/collect/list/${pageCount}/json`);
+}
+
+/**
+ * 首页文章添加到收藏
+ * @param id
+ * @returns {*}
+ */
+function addCollect(id) {
+  return post(`lg/collect/${id}/json`, null);
+}
+
+/**
+ * 取消收藏首页文章列表
+ * @param id
+ * @returns {*}
+ */
+function cancelCollect(id) {
+  return post(`lg/uncollect_originId/${id}/json`, null);
+}
+
 export default {
   homeDocList,
   homeTopDocList,
@@ -168,7 +186,6 @@ export default {
   knowledgeTree,
   knowledgeDetail,
   collect,
-  cancelCollect,
   getMyCollects,
   search,
   projectType,
@@ -176,5 +193,8 @@ export default {
   harmonyList,
   login,
   logout,
-  register
+  register,
+  collectList,
+  addCollect,
+  cancelCollect
 };

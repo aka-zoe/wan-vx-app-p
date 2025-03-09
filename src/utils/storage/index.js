@@ -24,7 +24,10 @@ export function saveAsync(key, value) {
  */
 export function getLocal(key){
   try {
-    return wx.getStorageSync(key);
+    const value = wx.getStorageSync(key)
+    console.log("获取缓存", value);
+    return value
+    // return wx.getStorageSync(key);
   } catch (e) {
     return e;
   }

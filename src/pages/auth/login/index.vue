@@ -1,8 +1,8 @@
 <template>
   <div class="login-page">
-    <h2>登录</h2>
+    <h2 class="title">登录</h2>
     <!-- 账号输入框 -->
-    <div class="form-group">
+    <div class="input-group">
       <label for="username">账号</label>
       <input
         type="text"
@@ -14,7 +14,7 @@
     </div>
 
     <!-- 密码输入框 -->
-    <div class="form-group">
+    <div class="input-group">
       <label for="password">密码</label>
       <input
         type="password"
@@ -26,8 +26,8 @@
     </div>
 
     <!-- 记住密码勾选框 -->
-    <div class="remember-or-register">
-      <div class="remember-or-register-check" @click="onCheckboxChange">
+    <div class="remember-and-register">
+      <div class="remember-check" @click="onCheckboxChange">
         <img class="remember-img" v-if="rememberMe" src="/static/images/checkbox-active.png" alt="记住我" />
         <img class="remember-img" v-if="!rememberMe" src="/static/images/checkbox.png" alt="记住我" />
         记住密码
@@ -53,7 +53,7 @@ export default {
     return {
       username: "",
       password: "",
-      rememberMe: true
+      rememberMe: false
     };
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
             storage.remove("password");
           }
           //跳转到首页
-          mpvue.reLaunch({ url: "/pages/index/main" });
+          launch.reLaunch("/pages/index/main");
         } else {
           toast.toast("登录异常");
         }
@@ -113,35 +113,16 @@ export default {
 
 <style scoped>
 .login-page {
-  max-width: 400px;
-  height: 100vh;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
+ padding: 20px;
+  margin: 20px;
 }
-
-h2 {
+.title{
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
-.form-group {
+.input-group {
   margin-bottom: 15px;
-}
-
-.remember-or-register {
-  margin-bottom: 15px;
-  justify-content: space-between; /* 两端对齐 */
-  align-items: center; /* 垂直居中对齐，可选 */
-  display: flex;
-}
-
-.remember-or-register-check {
-  align-items: center; /* 垂直居中对齐，可选 */
-  display: flex;
 }
 
 label {
@@ -150,8 +131,7 @@ label {
   font-weight: bold;
 }
 
-input[type="text"],
-input[type="password"] {
+input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -159,18 +139,23 @@ input[type="password"] {
   font-size: 14px;
 }
 
+.remember-and-register {
+  margin-bottom: 15px;
+  justify-content: space-between; /* 两端对齐 */
+  align-items: center; /* 垂直居中对齐，可选 */
+  display: flex;
+}
+
+.remember-check {
+  align-items: center; /* 垂直居中对齐，可选 */
+  display: flex;
+}
+
 .login-button {
-  display: flex; /* 使用 Flexbox 布局 */
-  align-items: center; /* 垂直居中 */
-  justify-content: center; /* 水平居中 */
-  width: 100%; /* 设置按钮宽度 */
-  height: 40px; /* 设置按钮高度 */
   font-size: 16px; /* 文字大小 */
   background-color: #007bff; /* 按钮背景色 */
   color: #ffffff; /* 按钮文字颜色 */
-  border: none; /* 去除默认边框 */
   border-radius: 5px; /* 圆角 */
-  cursor: pointer; /* 鼠标悬停时显示手型 */
 }
 
 .remember-img {
@@ -178,7 +163,4 @@ input[type="password"] {
   height: 30px;
 }
 
-button:hover {
-  opacity: 0.9;
-}
 </style>

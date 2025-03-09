@@ -21,16 +21,17 @@
     <div class="scrollable-list">
       <ul>
         <li v-for="(item, index) in homeListData" :key="index">
-          <div class="list-item" @click="itemClick(item)">
+          <div class="list-item" @click="itemClick(item,index)">
             <div class="item-child">
               <p class="item-title" :style="{color:item.type===1?topColor:normalColor}">{{ item.title }}</p>
             </div>
             <div class="item-child">
-              <p style="margin-right: 10px">作者:{{ item.author || item.shareUser }}
+              <p style="margin-right: 10px">作者:{{ item.author || item.shareUser }}</p>
               <p>分类:{{ item.superChapterName }}/{{ item.chapterName }}</p>
             </div>
             <div class="item-child">
               <p>时间：{{ item.niceDate }}</p>
+              <img class="collect-img" v-if="item.collect" src="/static/images/collect.png" alt="收藏" />
             </div>
 
           </div>
@@ -108,9 +109,36 @@ export default {
       launch.navigateTo("/pages/webview/main", { url: item.url });
     },
     //列表点击事件
-    itemClick(item) {
-      //跳转到webview
-      launch.navigateTo("/pages/webview/main", { url: item.link });
+    itemClick(item, index) {
+      const self = this;
+      console.log("收藏", index);
+      wx.showActionSheet({
+        itemList: [item.collect === true ? "取消收藏" : "收藏文章", "进入详情"],
+        success(res) {
+          console.log("收藏2", index);
+          if (res.tapIndex === 0) {
+            console.log("收藏3", self.homeListData[index]);
+            //收藏/取消收藏
+            if (item.collect === true) {
+              //取消收藏
+              api.cancelCollect(item.id);
+            } else {
+              //收藏
+              api.addCollect(item.id);
+            }
+            //修改状态
+            self.homeListData[index].collect = !self.homeListData[index].collect;
+          } else {
+            //跳转到webview
+            launch.navigateTo("/pages/webview/main", { url: item.link });
+          }
+        },
+        fail(res) {
+          console.log(res.errMsg);
+        }
+      });
+
+
     }
   },
   //处理下拉刷新
@@ -135,9 +163,11 @@ export default {
   flex-direction: column;
   height: 100%;
 }
-.swiper{
+
+.swiper {
   height: 200px;
 }
+
 .banner-image {
   width: 100%;
   height: 200px;
@@ -171,5 +201,11 @@ export default {
 
 .item-title {
   font-size: 18px;
+}
+
+.collect-img {
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
 }
 </style>

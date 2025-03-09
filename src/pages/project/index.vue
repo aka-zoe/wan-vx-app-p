@@ -48,9 +48,6 @@
 
     </div>
 
-    <i-modal title="开源项目" :visible="showModal" :actions="actions3" @click="handleClick3">
-      <div>请选择打开方式</div>
-    </i-modal>
   </div>
 
 </template>
@@ -107,7 +104,7 @@ export default {
       }
     },
     itemClick(item) {
-      this.showModal = true;
+      // this.showModal = true;
     },
     async projectType() {
       const datas = await api.projectType();
